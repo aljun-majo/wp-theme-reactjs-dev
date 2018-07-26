@@ -76,10 +76,7 @@ class App extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      menus: [],
-      postsRoute: [],
-      pagesRoute: [],
-      postPagaIDRoute: {}
+      menus: []
     };
   }
   toggle() {
@@ -91,27 +88,15 @@ class App extends Component {
   componentDidMount() {
 
     const wp_rest_menus = ( 'http://thegoodartisan-live.localhost/wp-json/thegoodartisan/menu' );
-    const wp_rest_posts = ( 'http://thegoodartisan-live.localhost/wp-json/wp/v2/posts' );
-    const wp_rest_pages = ( 'http://thegoodartisan-live.localhost/wp-json/wp/v2/pages' );
-    const wp_rest_PostPageID = ( 'http://thegoodartisan-live.localhost/wp-json/thegoodartisan/page-post/id' );
 
    return axios.all([
-         axios.get( wp_rest_menus ),
-         axios.get( wp_rest_pages ),
-         axios.get( wp_rest_posts ),
-         axios.get( wp_rest_PostPageID )
+         axios.get( wp_rest_menus )
        ])
-       .then(axios.spread((menuCotents, pageContents, postContents, postPageId) => {
+       .then(axios.spread((menuCotents) => {
                 const mContent = menuCotents.data || [];
-                const pagesData = pageContents.data || [];
-                const postsData = postContents.data || [];
-                const postPageData = postPageId.data || [];
 
                 this.setState({
-                    menus: mContent,
-                    postsRoute: postsData,
-                    pagesRoute: pagesData,
-                    postPagaIDRoute: postPageData.ID // from: postPageData {ID: 15} change to: postPageData.ID
+                    menus: mContent
                 })
             // console.log("menuCotents:menuCotents.menus",this.state.menus)
             }));
@@ -121,9 +106,6 @@ class App extends Component {
 
   render() {
     console.log('Menus State: ', this.state.menus);
-    console.log('postsRoute State: ', this.state.postsRoute);
-    console.log('pagesRoute State: ', this.state.pagesRoute);
-    console.log('postPagaIDRoute State: ', this.state.postPagaIDRoute);
     return (
       <BrowserRouter>
         <div>
