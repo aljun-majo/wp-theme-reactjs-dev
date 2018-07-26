@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, BrowserRouter, Link } from "react-router-dom";
+import { Route, Switch, BrowserRouter } from "react-router-dom";
 import axios from 'axios';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -10,23 +10,9 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem
-
+  NavItem,
+  NavLink
    } from 'reactstrap';
-
- // const NavlinkBootstrap = ({ label, to, activeOnlyWhenExact }) => (
- //
- //   <Route
- //     path={to}
- //     children={({ match }) => (
- //       <NavItem className={match ? "active" : ""}>
- //         <Link to={to} className="nav-link">{label}</Link>
- //       </NavItem>
- //
- //     )}
- //   />
- //
- // );
 
 const Home = () => (
   <Container className='mt-5'>
@@ -76,10 +62,7 @@ class App extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-      menus: [],
-      postsRoute: [],
-      pagesRoute: [],
-      postPagaIDRoute: {}
+      menus: []
     };
   }
   toggle() {
@@ -90,28 +73,16 @@ class App extends Component {
 
   componentDidMount() {
 
-    const wp_rest_menus = ( 'http://thegoodartisan-live.localhost/wp-json/thegoodartisan/menu' );
-    const wp_rest_posts = ( 'http://thegoodartisan-live.localhost/wp-json/wp/v2/posts' );
-    const wp_rest_pages = ( 'http://thegoodartisan-live.localhost/wp-json/wp/v2/pages' );
-    const wp_rest_PostPageID = ( 'http://thegoodartisan-live.localhost/wp-json/thegoodartisan/page-post/id' );
+    const wp_rest_menus = ( 'http://thegoodartisan-live.localhost/wp-json/thegoodartisan/men' );
 
    return axios.all([
-         axios.get( wp_rest_menus ),
-         axios.get( wp_rest_pages ),
-         axios.get( wp_rest_posts ),
-         axios.get( wp_rest_PostPageID )
+         axios.get( wp_rest_menus )
        ])
-       .then(axios.spread((menuCotents, pageContents, postContents, postPageId) => {
+       .then(axios.spread((menuCotents) => {
                 const mContent = menuCotents.data || [];
-                const pagesData = pageContents.data || [];
-                const postsData = postContents.data || [];
-                const postPageData = postPageId.data || [];
 
                 this.setState({
-                    menus: mContent,
-                    postsRoute: postsData,
-                    pagesRoute: pagesData,
-                    postPagaIDRoute: postPageData.ID // from: postPageData {ID: 15} change to: postPageData.ID
+                    menus: mContent
                 })
             // console.log("menuCotents:menuCotents.menus",this.state.menus)
             }));
@@ -121,9 +92,6 @@ class App extends Component {
 
   render() {
     console.log('Menus State: ', this.state.menus);
-    console.log('postsRoute State: ', this.state.postsRoute);
-    console.log('pagesRoute State: ', this.state.pagesRoute);
-    console.log('postPagaIDRoute State: ', this.state.postPagaIDRoute);
     return (
       <BrowserRouter>
         <div>
@@ -133,23 +101,24 @@ class App extends Component {
               <NavbarToggler onClick={this.toggle} />
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
-
-                  {this.state.menus.map((menu, index) => {
-                    return (
-
-
-                        <Route
-                          key={index}
-                          path={`/${menu.title.replace(/\s+/g, '-').toLowerCase()}`}
-                          children={({match}) => (
-                            <NavItem className={match ? "active" : ""}>
-                              <Link to={`/${menu.title.replace(/\s+/g, '-').toLowerCase()}`} className='nav-link'>{menu.title}</Link>
-                            </NavItem>
-                          )}
-                        />
-
-                    )
-                  })}
+                  <NavItem>
+                    <NavLink href="/home">Home</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink href="/about">About</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink href="/services">Services</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink href="/gallery">Gallery</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink href="/contact">Contact</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink href="/github">GitHub</NavLink>
+                  </NavItem>
 
                 </Nav>
               </Collapse>
@@ -157,14 +126,13 @@ class App extends Component {
           </Navbar>
           <Switch>
             <Route exact path="/" render={() => <div className='container'><p>Front-page Route.</p></div>} />
-            <Route path="/Home" component={Home} />
-            <Route path="/About" component={About} />
+            <Route path="/home" component={Home} />
+            <Route path="/about"  component={About} />
             <Route path="/services"  component={Services} />
             <Route path="/gallery"  component={Gallery} />
             <Route path="/contact"  component={Contact} />
             <Route path="/github" render={() => <div className='text-center'>https://github.com/jun20</div>} />
           </Switch>
-
           <p className='text-center mt-5'>WP REST API Menus <em><code>(Please check the Console Tab)</code></em>:
           <span className='d-none'>{`${console.log('Menus in Render Method: ', this.state.menus)}`}</span>
           </p>
