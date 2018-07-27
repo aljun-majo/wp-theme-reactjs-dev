@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, BrowserRouter, Link } from "react-router-dom";
+import { WP_REST_ROUTE } from './WP-Route/Rest-Route'
 import axios from 'axios';
 import Posts from './Pages/Posts';
 import Pages from './Pages/Pages';
@@ -8,12 +9,14 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   Container,
+  Row,
   Collapse,
   Navbar,
   NavbarToggler,
   Nav,
   NavItem
    } from 'reactstrap';
+
 
    const PageNotFound = ({ location, pageLoad, match }) => (
 
@@ -51,10 +54,12 @@ class App extends Component {
 
   componentDidMount() {
 
-    const wp_rest_menus = ( 'http://thegoodartisan-live.localhost/wp-json/thegoodartisan/menu' );
-    const wp_rest_posts = ( 'http://thegoodartisan-live.localhost/wp-json/wp/v2/posts' );
-    const wp_rest_pages = ( 'http://thegoodartisan-live.localhost/wp-json/wp/v2/pages' );
-    const wp_rest_PostPageID = ( 'http://thegoodartisan-live.localhost/wp-json/thegoodartisan/page-post/id' );
+    const ROOTURL = window.wp_root_URL !== undefined ? window.wp_root_URL : WP_REST_ROUTE.ROOTURL;
+
+    const wp_rest_menus = ( ROOTURL + '/wp-json/thegoodartisan/menu' );
+    const wp_rest_posts = ( ROOTURL + '/wp-json/wp/v2/posts' );
+    const wp_rest_pages = ( ROOTURL + '/wp-json/wp/v2/pages' );
+    const wp_rest_PostPageID = ( ROOTURL + '/wp-json/thegoodartisan/page-post/id' );
 
    return axios.all([
          axios.get( wp_rest_menus ),
@@ -147,6 +152,21 @@ class App extends Component {
               <Route exact render={(props) => <PageNotFound {...props} pageLoad={this.state.pageLoad} />} />
 
           </Switch>
+
+          <Container>
+            <Row>
+              <footer className="col site-footer bg-light">
+              		<div className="site-info text-center my-3 pt-5 pb-5">
+              		<a href="https://wordpress.org/">
+              				Proudly powered by WordPress</a>  &amp; <a href="https://reactjs.org/">
+                  				ReactJS</a>
+              			<span> | </span>
+              				Coded by <a href="http://thegoodartisan.com">baymax</a>.
+
+                      </div>
+              	</footer>
+            </Row>
+          </Container>
         </div>
       </BrowserRouter>
     );
