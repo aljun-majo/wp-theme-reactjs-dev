@@ -14,19 +14,6 @@ import {
 
    } from 'reactstrap';
 
- // const NavlinkBootstrap = ({ label, to, activeOnlyWhenExact }) => (
- //
- //   <Route
- //     path={to}
- //     children={({ match }) => (
- //       <NavItem className={match ? "active" : ""}>
- //         <Link to={to} className="nav-link">{label}</Link>
- //       </NavItem>
- //
- //     )}
- //   />
- //
- // );
 
 const Home = () => (
   <Container className='mt-5'>
@@ -97,8 +84,7 @@ class App extends Component {
 
                 this.setState({
                     menus: mContent
-                })
-            // console.log("menuCotents:menuCotents.menus",this.state.menus)
+                })            
             }));
 
   }
