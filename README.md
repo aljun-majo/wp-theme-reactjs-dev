@@ -1,4 +1,5 @@
 # wp-theme-reactjs-dev
+## Youtube Playlist for ]Video Series](https://www.youtube.com/watch?v=3OOMNOEa2Ik&list=PLJSTGGjsp0Mkt2QIF_ARD461hsqvWRezU)
 project file for wp theme in reactjs
 
 - gist functions.php custom [ROUTE](https://gist.github.com/jun20/3013edd4ca25d844c1b0a6b90e6aa9be)
