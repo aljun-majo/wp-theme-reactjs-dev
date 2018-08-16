@@ -1,4 +1,5 @@
 # wp-theme-reactjs-dev
+### (this for video series demo only not tested in production)
 ## Youtube Playlist for [Video Series](https://www.youtube.com/watch?v=3OOMNOEa2Ik&list=PLJSTGGjsp0Mkt2QIF_ARD461hsqvWRezU) <- View here
 project file for wp theme in reactjs
 
